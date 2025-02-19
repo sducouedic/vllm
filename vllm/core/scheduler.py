@@ -17,8 +17,13 @@ from vllm.lora.request import LoRARequest
 from vllm.prompt_adapter.request import PromptAdapterRequest
 from vllm.sequence import (Sequence, SequenceData, SequenceGroup,
                            SequenceGroupMetadata, SequenceGroupMetadataDelta,
+                           
+                           
+                           
+                           
+                           
                            SequenceStage, SequenceStatus)
-from vllm.utils import Device, PyObjectCache
+from vllm.utils import Device,                 PyObjectCache
 
 logger = init_logger(__name__)
 
@@ -28,7 +33,7 @@ ENABLE_ARTIFICIAL_PREEMPT = bool(
     os.getenv("VLLM_TEST_ENABLE_ARTIFICIAL_PREEMPT", False))  # noqa
 ARTIFICIAL_PREEMPTION_PROB = 0.5
 ARTIFICIAL_PREEMPTION_MAX_CNT = 500
-
+HELLO=3
 
 class PreemptionMode(enum.Enum):
     """Preemption modes.
