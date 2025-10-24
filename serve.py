@@ -1093,7 +1093,7 @@ def add_cli_args(parser: argparse.ArgumentParser):
     parser.add_argument(
         "--percentile-metrics",
         type=str,
-        default="ttft,tpot,itl",
+        default="ttft,tpot,itl,e2el",
         help="Comma-separated list of selected metrics to report percentils. "
         "This argument specifies the metrics to report percentiles. "
         'Allowed metric names are "ttft", "tpot", "itl", "e2el". ',
@@ -1101,7 +1101,7 @@ def add_cli_args(parser: argparse.ArgumentParser):
     parser.add_argument(
         "--metric-percentiles",
         type=str,
-        default="99",
+        default="99,100",
         help="Comma-separated list of percentiles for selected metrics. "
         'To report 25-th, 50-th, and 75-th percentiles, use "25,50,75". '
         'Default value is "99".'
