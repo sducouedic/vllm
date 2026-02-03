@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-import fcntl
+# import fcntl
 import logging
 import os
 import tempfile

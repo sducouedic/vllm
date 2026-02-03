@@ -12,7 +12,8 @@ import warnings
 from typing import Any
 
 import torch
-import uvloop
+# import uvloop
+import winloop
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, PreTrainedTokenizerBase
 

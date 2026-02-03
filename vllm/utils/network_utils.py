@@ -139,8 +139,14 @@ def get_tcp_uri(ip: str, port: int) -> str:
 
 
 def get_open_zmq_ipc_path() -> str:
-    base_rpc_path = envs.VLLM_RPC_BASE_PATH
-    return f"ipc://{base_rpc_path}/{uuid4()}"
+    # ZMQ IPC is not supported on Windows, use TCP instead
+    if sys.platform == "win32":
+        # Use localhost TCP socket on Windows
+        port = get_open_port()
+        return f"tcp://127.0.0.1:{port}"
+    else:
+        base_rpc_path = envs.VLLM_RPC_BASE_PATH
+        return f"ipc://{base_rpc_path}/{uuid4()}"
 
 
 def get_open_zmq_inproc_path() -> str:
@@ -222,15 +228,34 @@ def split_zmq_path(path: str) -> tuple[str, str, str]:
         raise ValueError(f"Invalid zmq path: {path}")
 
     scheme = parsed.scheme
-    host = parsed.hostname or ""
-    port = str(parsed.port or "")
+    
+    # For non-TCP schemes (ipc, inproc), the path component contains the address
+    # On Windows, paths like "ipc://C:\path\to\socket" can confuse urlparse
+    # because the colon in "C:" is interpreted as a port separator
+    if scheme in ("ipc", "inproc"):
+        # Extract everything after the scheme://
+        host = path.split("://", 1)[1] if "://" in path else ""
+        port = ""
+    else:
+        # For TCP and other schemes, use standard parsing
+        host = parsed.hostname or ""
+        try:
+            port = str(parsed.port or "")
+        except ValueError:
+            # If port parsing fails (e.g., Windows path with drive letter),
+            # and this is not a TCP scheme, treat the entire path as host
+            if scheme != "tcp":
+                host = path.split("://", 1)[1] if "://" in path else ""
+                port = ""
+            else:
+                raise
 
     if scheme == "tcp" and not all((host, port)):
         # The host and port fields are required for tcp
         raise ValueError(f"Invalid zmq path: {path}")
 
-    if scheme != "tcp" and port:
-        # port only makes sense with tcp
+    if scheme == "tcp" and not port:
+        # port is required for tcp
         raise ValueError(f"Invalid zmq path: {path}")
 
     return scheme, host, port

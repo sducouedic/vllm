@@ -3,6 +3,7 @@
 
 import contextlib
 import os
+import sys
 import weakref
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass
@@ -953,11 +954,15 @@ def wait_for_engine_startup(
         and not parallel_config.data_parallel_external_lb
     )
 
-    if proc_manager is not None:
-        for sentinel in proc_manager.sentinels():
-            poller.register(sentinel, zmq.POLLIN)
-    if coord_process is not None:
-        poller.register(coord_process.sentinel, zmq.POLLIN)
+    # On Windows, process sentinels cannot be registered with ZMQ poller
+    # because they are handles, not sockets. We'll check process status
+    # separately in the polling loop.
+    if sys.platform != "win32":
+        if proc_manager is not None:
+            for sentinel in proc_manager.sentinels():
+                poller.register(sentinel, zmq.POLLIN)
+        if coord_process is not None:
+            poller.register(coord_process.sentinel, zmq.POLLIN)
     while any(conn_pending) or any(start_pending):
         events = poller.poll(STARTUP_POLL_PERIOD_MS)
         if not events:

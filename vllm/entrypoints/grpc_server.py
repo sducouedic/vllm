@@ -25,7 +25,8 @@ import time
 from collections.abc import AsyncGenerator
 
 import grpc
-import uvloop
+# import uvloop
+import winloop
 from grpc_reflection.v1alpha import reflection
 
 from vllm import SamplingParams, TextPrompt, TokensPrompt

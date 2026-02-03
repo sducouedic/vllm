@@ -21,7 +21,8 @@ from typing import Annotated, Any
 
 import model_hosting_container_standards.sagemaker as sagemaker_standards
 import pydantic
-import uvloop
+# import uvloop
+import winloop
 from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -1235,7 +1236,7 @@ def create_server_socket(addr: tuple[str, int]) -> socket.socket:
 
     sock = socket.socket(family=family, type=socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+    # sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
     sock.bind(addr)
 
     return sock
@@ -1387,4 +1388,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     validate_parsed_serve_args(args)
 
-    uvloop.run(run_server(args))
+    # uvloop.run(run_server(args))
+    winloop.run(run_server(args))

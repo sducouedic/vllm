@@ -4,7 +4,8 @@
 import argparse
 import signal
 
-import uvloop
+# import uvloop
+import winloop
 
 import vllm
 import vllm.envs as envs
@@ -57,7 +58,8 @@ class ServeSubcommand(CLISubcommand):
                 run_multi_api_server(args)
             else:
                 # Single API server (this process).
-                uvloop.run(run_server(args))
+                # uvloop.run(run_server(args))
+                winloop.run(run_server(args))
 
     def validate(self, args: argparse.Namespace) -> None:
         validate_parsed_serve_args(args)
@@ -248,6 +250,9 @@ def run_api_server_worker_proc(
     set_process_title("APIServer", str(server_index))
     decorate_logs()
 
-    uvloop.run(
+    # uvloop.run(
+    #     run_server_worker(listen_address, sock, args, client_config, **uvicorn_kwargs)
+    # )
+    winloop.run(
         run_server_worker(listen_address, sock, args, client_config, **uvicorn_kwargs)
     )
