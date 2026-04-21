@@ -468,7 +468,7 @@ vllm bench serve \
   --num-prompts 100 \
   --plot-timeline \
   --plot-dataset-stats \
-  --timeline-itl-threshold 10,20,50 \
+  --timeline-itl-thresholds 10 20 \
   --save-result \
   --result-dir ./benchmark_results/
 ```
