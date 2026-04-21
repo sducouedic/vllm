@@ -1612,12 +1612,11 @@ def add_cli_args(parser: argparse.ArgumentParser):
     parser.add_argument(
         "--timeline-itl-thresholds",
         type=str,
-        default="25.0,50.0",
+        default="25,50",
         help="ITL thresholds in milliseconds for timeline plot coloring. "
         "Specify two comma-separated values to categorize inter-token "
         "latencies into three groups: below first threshold (green), "
-        "between thresholds (orange), and above second threshold (red). "
-        "Default: 25.0,50.0 (milliseconds).",
+        "between thresholds (orange), and above second threshold (red).",
     )
     parser.add_argument(
         "--plot-dataset-stats",
