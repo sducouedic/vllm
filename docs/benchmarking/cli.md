@@ -426,7 +426,7 @@ vllm bench serve \
 
 Example timeline visualization:
 
-<iframe src="../../assets/contributing/openai-10.0qps-llama-194m-20260224-200058.timeline.html" width="100%" height="600" frder="0"></iframe>
+<iframe src="../../assets/contributing/vllm_bench_serve_timeline.html" width="100%" height="600" frder="0"></iframe>
 
 
 ##### Plot Dataset Statistics
@@ -452,7 +452,7 @@ This generates a matplotlib figure with four subplots:
 
 This helps understand request concurrency patterns and token generation characteristics.
 
-Example output: ![Dataset Statistics](../assets/contributing/openai-10.0qps-llama-194m-20260224-200058.dataset_stats.png)
+Example output: ![Dataset Statistics](../assets/contributing/vllm_bench_serve_dataset_stats.png)
 
 ##### Combined Visualization Example
 
