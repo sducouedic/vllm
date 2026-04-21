@@ -424,7 +424,10 @@ vllm bench serve \
   --timeline-itl-threshold 10,20
 ```
 
-Example timeline visualization ([view interactive plot](../../assets/contributing/openai-10.0qps-llama-194m-20260224-200058.timeline.html))
+Example timeline visualization:
+
+<iframe src="../../assets/contributing/openai-10.0qps-llama-194m-20260224-200058.timeline.html" width="100%" height="600" frder="0"></iframe>
+
 
 ##### Plot Dataset Statistics
 
