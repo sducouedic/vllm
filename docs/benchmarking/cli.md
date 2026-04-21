@@ -410,7 +410,7 @@ This generates an interactive HTML file showing:
 - **Inter-Token Latency (ITL)**: Color-coded based on performance thresholds (green → orange → red)
 - **Performance analysis**: Visually identify latency bottlenecks and spikes during the benchmark
 
-Customize ITL color thresholds with `--timeline-itl-threshold` (default: 25ms, 50ms):
+Customize ITL color thresholds with --timeline-itl-thresholds (default: 25ms, 50ms):
 
 ```bash
 vllm bench serve \
@@ -468,7 +468,7 @@ vllm bench serve \
   --num-prompts 100 \
   --plot-timeline \
   --plot-dataset-stats \
-  --timeline-itl-threshold 10,20,50 \
+  --timeline-itl-thresholds 10 20 \
   --save-result \
   --result-dir ./benchmark_results/
 ```
