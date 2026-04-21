@@ -108,6 +108,38 @@ P99 ITL (ms):                            8.39
 ==================================================
 ```
 
+#### Results Visualization
+
+The `--plot-timeline` and `--plot-dataset-stats` can be used to generate respectively the requests completion timeline and dataset prompt and output tokens statistics, which can be useful for debugging purpose or for deeper analysis.
+
+```bash
+vllm bench serve \
+    --backend vllm \
+    --model meta-llama/Llama-3.1-8B-Instruct \
+    --endpoint /v1/completions \
+    --dataset-name sharegpt \
+    --dataset-path <your data path>/ShareGPT_V3_unfiltered_cleaned_split.json \
+    --num-prompts 100 \
+    --plot-timeline \
+    --timeline-itl-thresholds 2,5 \
+    --plot-dataset-stats \
+    --save-result
+```
+
+##### Interactive Timeline
+
+The generated timeline is an interactive visualization in the form of an HTML file that can be rendered in most browsers. To customize the ITL color thresholds, one can use `--timeline-itl-thresholds` flag (default: 25ms, 50ms)
+
+Output using the above command.
+
+<iframe src="../../assets/contributing/vllm_bench_serve_timeline.html" width="100%" height="600" frder="0"></iframe>
+
+##### Dataset statistics
+
+The generated figure shows the input prompt and output tokens distribution.
+
+Output from the above command: ![Dataset Statistics](../assets/contributing/vllm_bench_serve_dataset_stats.png)
+
 #### Custom Dataset
 
 If the dataset you want to benchmark is not supported yet in vLLM, even then you can benchmark on it using `CustomDataset`. Your data needs to be in `.jsonl` format and needs to have "prompt" field per entry, e.g., data.jsonl
@@ -384,99 +416,6 @@ vllm bench serve \
     --save-result \
     --max-concurrency 512
 ```
-
-#### Visualization: Timeline and Dataset Statistics
-
-The benchmark tool provides visualization flags to analyze performance patterns and request characteristics:
-
-##### Plot Timeline
-
-Generate an interactive HTML timeline visualization with `--plot-timeline`:
-
-```bash
-vllm bench serve \
-  --backend vllm \
-  --model NousResearch/Hermes-3-Llama-3.1-8B \
-  --endpoint /v1/completions \
-  --dataset-name sharegpt \
-  --dataset-path <your data path>/ShareGPT_V3_unfiltered_cleaned_split.json \
-  --num-prompts 100 \
-  --plot-timeline
-```
-
-This generates an interactive HTML file showing:
-- **Request execution timeline**: Each request displayed as a horizontal bar
-- **Time-to-First-Token (TTFT)**: Shown in blue, representing latency until first token generation
-- **Inter-Token Latency (ITL)**: Color-coded based on performance thresholds (green → orange → red)
-- **Performance analysis**: Visually identify latency bottlenecks and spikes during the benchmark
-
-Customize ITL color thresholds with --timeline-itl-thresholds (default: 25ms, 50ms):
-
-```bash
-vllm bench serve \
-  --backend vllm \
-  --model NousResearch/Hermes-3-Llama-3.1-8B \
-  --endpoint /v1/completions \
-  --dataset-name sharegpt \
-  --dataset-path <your data path>/ShareGPT_V3_unfiltered_cleaned_split.json \
-  --num-prompts 100 \
-  --plot-timeline \
-  --timeline-itl-threshold 10,20
-```
-
-Example timeline visualization:
-
-<iframe src="../../assets/contributing/vllm_bench_serve_timeline.html" width="100%" height="600" frder="0"></iframe>
-
-
-##### Plot Dataset Statistics
-
-Generate token distribution analysis with `--plot-dataset-stats`:
-
-```bash
-vllm bench serve \
-  --backend vllm \
-  --model NousResearch/Hermes-3-Llama-3.1-8B \
-  --endpoint /v1/completions \
-  --dataset-name sharegpt \
-  --dataset-path <your data path>/ShareGPT_V3_unfiltered_cleaned_split.json \
-  --num-prompts 100 \
-  --plot-dataset-stats
-```
-
-This generates a matplotlib figure with four subplots:
-- **Prompt tokens distribution**: Histogram showing input token counts across requests
-- **Output tokens distribution**: Histogram showing generated token counts
-- **Total tokens distribution**: Combined token distribution
-- **Tokens per request (stacked)**: Stacked bar chart displaying prompt and output tokens per request over time
-
-This helps understand request concurrency patterns and token generation characteristics.
-
-Example output: ![Dataset Statistics](../assets/contributing/vllm_bench_serve_dataset_stats.png)
-
-##### Combined Visualization Example
-
-Use both flags together for comprehensive analysis:
-
-```bash
-vllm bench serve \
-  --backend vllm \
-  --model NousResearch/Hermes-3-Llama-3.1-8B \
-  --endpoint /v1/completions \
-  --dataset-name sharegpt \
-  --dataset-path <your data path>/ShareGPT_V3_unfiltered_cleaned_split.json \
-  --num-prompts 100 \
-  --plot-timeline \
-  --plot-dataset-stats \
-  --timeline-itl-thresholds 10 20 \
-  --save-result \
-  --result-dir ./benchmark_results/
-```
-
-Output files will be saved as:
-- `<model_name>-<timestamp>.timeline.html` - Interactive timeline
-- `<model_name>-<timestamp>.dataset_stats.png` - Dataset statistics figure
-- `<model_name>-<timestamp>.json` - Benchmark metrics
 
 #### Running With Sampling Parameters
 
