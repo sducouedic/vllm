@@ -130,7 +130,7 @@ vllm bench serve \
 
 The generated timeline is an interactive visualization in the form of an HTML file that can be rendered in most browsers. To customize the ITL color thresholds, one can use `--timeline-itl-thresholds` flag (default: 25ms, 50ms)
 
-Output using the above command.
+Example output:
 
 <iframe src="../../assets/contributing/vllm_bench_serve_timeline.html" width="100%" height="600" frder="0"></iframe>
 
@@ -138,7 +138,7 @@ Output using the above command.
 
 The generated figure shows the input prompt and output tokens distribution.
 
-Output from the above command: ![Dataset Statistics](../assets/contributing/vllm_bench_serve_dataset_stats.png)
+Example output: ![Dataset Statistics](../assets/contributing/vllm_bench_serve_dataset_stats.png)
 
 #### Custom Dataset
 
