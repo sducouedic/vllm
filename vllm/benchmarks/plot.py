@@ -131,12 +131,12 @@ def construct_timeline_data(
     """
 
     def tostr(sec_time: float) -> str:
-        """Convert seconds to HH:MM:SS.mmm format."""
+        """Convert seconds to ISO 8601 datetime string (epoch-relative)."""
         h = int(sec_time // 3600)
         assert h < 100, "time seems to last more than 100 hours"
         m = int((sec_time % 3600) // 60)
         s = sec_time % 60
-        return f"{h:02d}:{m:02d}:{s:06.3f}"
+        return f"1970-01-01T{h:02d}:{m:02d}:{s:06.3f}"
 
     def itl_type(itl: float) -> str:
         """Categorize ITL based on thresholds."""
